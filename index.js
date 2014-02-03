@@ -1,3 +1,5 @@
+// Contributions by Dave Wasmer are copyright 2014 Kinvey - Apache 2.0 Licensed
+
 var fs = require("fs");
 var path = require("path");
 var gulp = require("gulp");
@@ -19,7 +21,11 @@ var loadConfigJson = function(dependencyConfig) {
     ]);
 
     if(!jsonPath){
-        throw new PluginError(PLUGIN_NAME, "The bower package " + dependencyConfig.name + " has no bower.json or package.json, use the overrides property in your bower.json");
+        if (dependencyConfig.main) {
+            return {dependencies: []}
+        } else {
+            throw new PluginError(PLUGIN_NAME, "The bower package " + dependencyConfig.name + " has no bower.json or package.json, use the overrides property in your bower.json");
+        }
     }
 
     var json = JSON.parse(fs.readFileSync(jsonPath))
