@@ -59,15 +59,21 @@ describe('gulpBowerFiles()', function () {
         ]).fromConfig("/bower.json").when(done);
     });
 
-    it("should throw an exception when bower.json, package.json or ./bower.json's override are not found", function(done) {
+    it("should throw an exception when bower.json, package.json and ./bower.json's override are not found", function(done) {
         try {
-            streamFromConfig("/requiresoverride_bower.json");
+            streamFromConfig("/no_overrides_no_config_bower.json");
             
             should.fail("due to lack of configuration.");
         } catch (e) {
             e.message.should.containEql("bower package noconfig has no bower.json or package.json"); 
             done();
         }
+    });
+
+    it("should work if ./bower.json overrides are present and the package is missing bower.json and package.json", function(done) {
+        expect([
+            '/fixtures/noconfig/noconfig.js'
+        ]).fromConfig('/overrides_with_no_config_bower.json').when(done);
     });
 
     it("should recurse through dependencies pulling in their dependencies", function(done) {

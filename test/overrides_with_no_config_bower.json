@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "noconfig": "*"
+    },
+    "overrides": {
+        "noconfig": {
+          "main": "noconfig.js"
+        }
+    }
+}
